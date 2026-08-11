@@ -19,6 +19,9 @@
           gopls
           gofumpt
           golangci-lint
+
+          vscode-langservers-extracted
+          prettier
         ];
       };
     };
