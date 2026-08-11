@@ -9,7 +9,7 @@
                 "external": {
                     "command": "gofumpt",
                     "arguments": [
-                        "{buffer_path"
+                        "{buffer_path}"
                     ]
                 }
             },
