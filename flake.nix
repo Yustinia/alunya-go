@@ -26,6 +26,16 @@
           mbake
           checkmake
           gnumake
+
+          pkg-config
+          libx11.dev
+          libxcursor
+          libxi
+          libxinerama
+          libxrandr
+          libxxf86vm
+          libxkbcommon
+          wayland
         ];
       };
     };
