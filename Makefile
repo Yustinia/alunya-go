@@ -1,10 +1,9 @@
 ENTRY := ./cmd/
-
 NAME := alunya
 BUILDCON := $(shell fd -u -H -t file -e go)
 
 $(NAME): $(BUILDCON)
-	cd $(ENTRY) && go build -x .
+	go build -o $(NAME) -x $(ENTRY)
 
 .PHONY: go
 
