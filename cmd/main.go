@@ -36,20 +36,52 @@ func main() {
 	w := a.NewWindow("alunya")
 
 	searchEntry := widget.NewEntry()
-	searchEntry.SetPlaceHolder("Search")
+	searchEntry.SetPlaceHolder("Enter Search")
 
-	generalCatTog := widget.NewCheck("General", func(b bool) {
-		log.Printf("Genearl: %v\n", b)
+	sfw := widget.NewCheck("SFW", func(b bool) {
+		log.Println("SFW:", b)
+	})
+	sketchy := widget.NewCheck("Sketchy", func(b bool) {
+		log.Println("Sketchy:", b)
+	})
+	nsfw := widget.NewCheck("NSFW", func(b bool) {
+		log.Println("NSFW:", b)
+	})
+	purityRow := container.NewHBox(sfw, sketchy, nsfw)
+
+	general := widget.NewCheck("General", func(b bool) {
+		log.Println("General:", b)
+	})
+	anime := widget.NewCheck("Anime", func(b bool) {
+		log.Println("Anime:", b)
+	})
+	people := widget.NewCheck("People", func(b bool) {
+		log.Println("People:", b)
+	})
+	categoryRow := container.NewHBox(general, anime, people)
+
+	sortDropDown := widget.NewSelect([]string{"Relevance", "Date Added", "Random"}, func(s string) {
+		log.Println("Sort:", s)
 	})
 
-	sfwPurTog := widget.NewCheck("SFW", func(b bool) {
-		log.Printf("SFW: %v\n", b)
+	catPurSortRow := container.NewHBox(categoryRow, purityRow, sortDropDown)
+
+	aspectRatio := widget.NewSelect([]string{"Any", "All Wide", "16:9"}, func(s string) {
+		log.Println("Ratio:", s)
 	})
+	resolution := widget.NewSelect([]string{"At Least", "Exact"}, func(s string) {
+		log.Println("Resolution:", s)
+	})
+	resXAxis := widget.NewEntry()
+	resXAxis.SetPlaceHolder("1920")
+	resYAxis := widget.NewEntry()
+	resYAxis.SetPlaceHolder("1080")
 
-	topR := container.NewHBox(generalCatTog, sfwPurTog)
-	tester := container.NewVBox(searchEntry, topR)
+	ratResXYRow := container.NewHBox(aspectRatio, resolution, resXAxis, resYAxis)
 
-	w.SetContent(tester)
+	filterSection := container.NewVBox(searchEntry, catPurSortRow, ratResXYRow)
+
+	w.SetContent(filterSection)
 	w.Resize(fyne.NewSize(300, 200))
 	w.ShowAndRun()
 }
