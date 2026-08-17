@@ -31,10 +31,7 @@ var (
 // 	}
 // }
 
-func main() {
-	a := app.NewWithID("alunya")
-	w := a.NewWindow("alunya")
-
+func buildSearchSection() *fyne.Container {
 	queryEntry := widget.NewEntry()
 	queryEntry.SetPlaceHolder("This is your search")
 	queryForm := widget.NewForm(
@@ -46,7 +43,14 @@ func main() {
 
 	searchContainer := container.NewBorder(nil, nil, nil, querySearchButton, queryForm)
 
-	windowContainer := container.NewVBox(searchContainer)
+	return searchContainer
+}
+
+func main() {
+	a := app.NewWithID("alunya")
+	w := a.NewWindow("alunya")
+
+	windowContainer := container.NewVBox(buildSearchSection())
 
 	w.SetContent(windowContainer)
 	w.Resize(fyne.NewSize(300, 200))
