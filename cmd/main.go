@@ -62,14 +62,33 @@ func buildCategorySection() *fyne.Container {
 	return categoryContainer
 }
 
+func buildPuritySection() *fyne.Container {
+	sfwToggle := widget.NewCheck("SFW", func(b bool) {
+		log.Printf("SFW: %v\n", b)
+	})
+	sketchyToggle := widget.NewCheck("Sketchy", func(b bool) {
+		log.Printf("Sketchy: %v\n", b)
+	})
+	nsfwToggle := widget.NewCheck("NSFW", func(b bool) {
+		log.Printf("NSFW: %v\n", b)
+	})
+
+	purityContainer := container.NewGridWithColumns(3, sfwToggle, sketchyToggle, nsfwToggle)
+
+	return purityContainer
+}
+
 func main() {
 	a := app.NewWithID("alunya")
 	w := a.NewWindow("alunya")
 
 	searchContainer := buildSearchSection()
 	categoryContainer := buildCategorySection()
+	purityContainer := buildPuritySection()
 
-	windowContainer := container.NewVBox(searchContainer, categoryContainer)
+	filterRow := container.NewGridWithColumns(2, categoryContainer, purityContainer)
+
+	windowContainer := container.NewVBox(searchContainer, filterRow)
 
 	w.SetContent(windowContainer)
 	w.Resize(fyne.NewSize(300, 200))
