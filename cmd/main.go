@@ -78,15 +78,45 @@ func buildPuritySection() *fyne.Container {
 	return purityContainer
 }
 
+func buildSortSection() *widget.Select {
+	entries := []string{
+		"Relevance",
+		"Random",
+		"Date Added",
+		"Views",
+		"Favorites",
+		"Toplist",
+		"Hot",
+	}
+	sortDropDown := widget.NewSelect(entries, func(s string) {
+		log.Printf("Sort: %v\n", s)
+	})
+
+	return sortDropDown
+}
+
+func buildFilterRow() *fyne.Container {
+	categoryForm := formItem("Category", buildCategorySection())
+	purityForm := formItem("Purity", buildPuritySection())
+	sortForm := formItem("Sort", buildSortSection())
+
+	filterRow := container.NewGridWithColumns(3, categoryForm, purityForm, sortForm)
+
+	return filterRow
+}
+
+func formItem(label string, container fyne.CanvasObject) *widget.Form {
+	return widget.NewForm(
+		widget.NewFormItem(label, container),
+	)
+}
+
 func main() {
 	a := app.NewWithID("alunya")
 	w := a.NewWindow("alunya")
 
 	searchContainer := buildSearchSection()
-	categoryContainer := buildCategorySection()
-	purityContainer := buildPuritySection()
-
-	filterRow := container.NewGridWithColumns(2, categoryContainer, purityContainer)
+	filterRow := buildFilterRow()
 
 	windowContainer := container.NewVBox(searchContainer, filterRow)
 
