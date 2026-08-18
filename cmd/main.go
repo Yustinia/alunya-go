@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/Yustinia/alunya-go/internal/modular"
+	"github.com/Yustinia/alunya-go/internal/elements"
 	"github.com/Yustinia/gopaper"
 
 	"fyne.io/fyne/v2"
@@ -34,8 +34,8 @@ func main() {
 	a := app.NewWithID("alunya")
 	w := a.NewWindow("alunya")
 
-	searchContainer := modular.BuildSearchSection()
-	filterRow := modular.BuildFilterRow()
+	searchContainer := elements.BuildSearchSection()
+	filterRow := elements.BuildFilterRow()
 
 	windowContainer := container.NewVBox(searchContainer, filterRow)
 

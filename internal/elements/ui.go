@@ -1,4 +1,4 @@
-package modular
+package elements
 
 import (
 	"log"
