@@ -34,7 +34,7 @@ func buildAspectRatio() *widget.Select {
 	return aspectRatio
 }
 
-func buildResolution() *widget.Select {
+func buildResolution() *fyne.Container {
 	entries := []string{
 		"At Least",
 		"Exact",
@@ -44,7 +44,15 @@ func buildResolution() *widget.Select {
 		log.Printf("Resolution: %v\n", s)
 	})
 
-	return resolution
+	axisXEntry := widget.NewEntry()
+	axisXEntry.SetPlaceHolder("1920")
+
+	axisYEntry := widget.NewEntry()
+	axisYEntry.SetPlaceHolder("1080")
+
+	resolutionContainer := container.NewGridWithColumns(3, resolution, axisXEntry, axisYEntry)
+
+	return resolutionContainer
 }
 
 func BuildFilterRowBot() *fyne.Container {
