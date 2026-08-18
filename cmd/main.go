@@ -41,6 +41,6 @@ func main() {
 	windowContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
 
 	w.SetContent(windowContainer)
-	w.Resize(fyne.NewSize(300, 200))
+	w.Resize(fyne.NewSize(800, 600))
 	w.ShowAndRun()
 }
