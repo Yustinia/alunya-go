@@ -8,21 +8,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func BuildSearchSection() *fyne.Container {
-	queryEntry := widget.NewEntry()
-	queryEntry.SetPlaceHolder("This is your search")
-	queryForm := widget.NewForm(
-		widget.NewFormItem("Search", queryEntry),
-	)
-	querySearchButton := widget.NewButton("Enter", func() {
-		log.Printf("Searched: %v\n", queryEntry.Text)
-	})
-
-	searchContainer := container.NewBorder(nil, nil, nil, querySearchButton, queryForm)
-
-	return searchContainer
-}
-
 func buildCategorySection() *fyne.Container {
 	generalToggle := widget.NewCheck("General", func(b bool) {
 		log.Printf("General: %v\n", b)
@@ -80,10 +65,4 @@ func BuildFilterRow() *fyne.Container {
 	filterRow := container.NewGridWithColumns(3, categoryForm, purityForm, sortForm)
 
 	return filterRow
-}
-
-func formItem(label string, container fyne.CanvasObject) *widget.Form {
-	return widget.NewForm(
-		widget.NewFormItem(label, container),
-	)
 }
