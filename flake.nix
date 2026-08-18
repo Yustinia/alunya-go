@@ -36,6 +36,12 @@
           libxxf86vm
           libxkbcommon
           wayland
+
+          dockerfmt
+          hadolint
+          docker-language-server
+          docker-compose-language-service
+          yamllint
         ];
       };
     };
