@@ -46,11 +46,30 @@ func buildSearchSection() *fyne.Container {
 	return searchContainer
 }
 
+func buildCategorySection() *fyne.Container {
+	generalToggle := widget.NewCheck("General", func(b bool) {
+		log.Printf("General: %v\n", b)
+	})
+	animeToggle := widget.NewCheck("Anime", func(b bool) {
+		log.Printf("Anime: %v\n", b)
+	})
+	peopleToggle := widget.NewCheck("People", func(b bool) {
+		log.Printf("People: %v\n", b)
+	})
+
+	categoryContainer := container.NewGridWithColumns(3, generalToggle, animeToggle, peopleToggle)
+
+	return categoryContainer
+}
+
 func main() {
 	a := app.NewWithID("alunya")
 	w := a.NewWindow("alunya")
 
-	windowContainer := container.NewVBox(buildSearchSection())
+	searchContainer := buildSearchSection()
+	categoryContainer := buildCategorySection()
+
+	windowContainer := container.NewVBox(searchContainer, categoryContainer)
 
 	w.SetContent(windowContainer)
 	w.Resize(fyne.NewSize(300, 200))
