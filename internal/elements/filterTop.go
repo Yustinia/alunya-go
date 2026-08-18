@@ -57,7 +57,7 @@ func buildSortSection() *widget.Select {
 	return sortDropDown
 }
 
-func BuildFilterRow() *fyne.Container {
+func BuildFilterRowTop() *fyne.Container {
 	categoryForm := formItem("Category", buildCategorySection())
 	purityForm := formItem("Purity", buildPuritySection())
 	sortForm := formItem("Sort", buildSortSection())

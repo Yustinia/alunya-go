@@ -35,9 +35,10 @@ func main() {
 	w := a.NewWindow("alunya")
 
 	searchContainer := elements.BuildSearchSection()
-	filterRow := elements.BuildFilterRow()
+	filterRowTop := elements.BuildFilterRowTop()
+	filterRowBot := elements.BuildFilterRowBot()
 
-	windowContainer := container.NewVBox(searchContainer, filterRow)
+	windowContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
 
 	w.SetContent(windowContainer)
 	w.Resize(fyne.NewSize(300, 200))
