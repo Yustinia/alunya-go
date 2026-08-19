@@ -12,11 +12,7 @@
                         "{buffer_path}"
                     ]
                 }
-            },
-            "format_on_save": "on",
-            "language_servers": [
-                "gopls"
-            ]
+            }
         }
     },
     "lsp": {
