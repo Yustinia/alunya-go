@@ -31,7 +31,7 @@ var (
 // }
 
 func main() {
-	a := app.NewWithID("alunya")
+	a := app.NewWithID("io.github.yustinia.alunya")
 	w := a.NewWindow("alunya")
 
 	searchContainer := elements.BuildSearchSection()
