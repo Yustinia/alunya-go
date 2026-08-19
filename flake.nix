@@ -17,7 +17,6 @@
         packages = with pkgs; [
           go
           gopls
-          gofumpt
           golangci-lint
 
           vscode-langservers-extracted
