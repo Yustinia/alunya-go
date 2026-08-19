@@ -33,16 +33,17 @@ var (
 func main() {
 	a := app.NewWithID("io.github.yustinia.alunya")
 	w := a.NewWindow("alunya")
+	winSize := fyne.NewSize(800, 600)
 
 	searchContainer := elements.BuildSearchSection()
 	filterRowTop := elements.BuildFilterRowTop()
 	filterRowBot := elements.BuildFilterRowBot()
-	gridTest := elements.GalleryGrid()
+	galleryGrid := elements.GalleryGrid()
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
-	windowContainer := container.NewBorder(topContainer, nil, nil, nil, gridTest)
+	windowContainer := container.NewBorder(topContainer, nil, nil, nil, galleryGrid)
 
 	w.SetContent(windowContainer)
-	w.Resize(fyne.NewSize(800, 600))
+	w.Resize(winSize)
 	w.ShowAndRun()
 }
