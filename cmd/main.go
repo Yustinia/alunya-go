@@ -39,7 +39,8 @@ func main() {
 	filterRowBot := elements.BuildFilterRowBot()
 	gridTest := elements.GalleryGrid()
 
-	windowContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot, gridTest)
+	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
+	windowContainer := container.NewBorder(topContainer, nil, nil, nil, gridTest)
 
 	w.SetContent(windowContainer)
 	w.Resize(fyne.NewSize(800, 600))
