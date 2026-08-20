@@ -34,8 +34,9 @@ func main() {
 	a := app.NewWithID("io.github.yustinia.alunya")
 	w := a.NewWindow("alunya")
 	winSize := fyne.NewSize(800, 600)
+	params := gopaper.NewSearch()
 
-	searchContainer := elements.BuildSearchSection()
+	searchContainer := elements.BuildSearchSection(&params)
 	filterRowTop := elements.BuildFilterRowTop()
 	filterRowBot := elements.BuildFilterRowBot()
 	galleryGrid := elements.GalleryGrid()
