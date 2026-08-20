@@ -6,6 +6,8 @@ github.com/BurntSushi/toml v1.6.0 h1:dRaEfpa2VI55EwlIW72hMRHdWouJeRF7TPYhI+AUQjk
 github.com/BurntSushi/toml v1.6.0/go.mod h1:ukJfTF/6rtPPRCnwkur4qwRxa8vTRFBF0uk2lLoLwho=
 github.com/Yustinia/gopaper v0.11.0 h1:EN9ILXgNi0wk2wCbe31oZIEw6JcDdHg9pMLZuAL23do=
 github.com/Yustinia/gopaper v0.11.0/go.mod h1:/Ngsa2EWWM8YwfGRpI8Bsd4I4w/csbaUKIz7CPCnXSo=
+github.com/Yustinia/gopaper v0.12.0 h1:Ya2P52G15zRveqA7wwA23REKdt4i+upj2ETuWjyqK0A=
+github.com/Yustinia/gopaper v0.12.0/go.mod h1:/Ngsa2EWWM8YwfGRpI8Bsd4I4w/csbaUKIz7CPCnXSo=
 github.com/anthonynsimon/bild v0.14.0 h1:IFRkmKdNdqmexXHfEU7rPlAmdUZ8BDZEGtGHDnGWync=
 github.com/anthonynsimon/bild v0.14.0/go.mod h1:hcvEAyBjTW69qkKJTfpcDQ83sSZHxwOunsseDfeQhUs=
 github.com/clipperhouse/uax29/v2 v2.2.0 h1:ChwIKnQN3kcZteTXMgb1wztSgaU+ZemkgWdohwgs8tY=

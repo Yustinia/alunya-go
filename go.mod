@@ -4,7 +4,7 @@ go 1.26.5
 
 require (
 	fyne.io/fyne/v2 v2.8.0
-	github.com/Yustinia/gopaper v0.11.0
+	github.com/Yustinia/gopaper v0.12.0
 )
 
 require (
