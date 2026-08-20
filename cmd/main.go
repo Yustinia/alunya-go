@@ -37,7 +37,7 @@ func main() {
 	params := gopaper.NewSearch()
 
 	searchContainer := elements.BuildSearchSection(&params)
-	filterRowTop := elements.BuildFilterRowTop()
+	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot()
 	galleryGrid := elements.GalleryGrid()
 
