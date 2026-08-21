@@ -49,7 +49,7 @@ func buildPuritySection(params *gopaper.SearchParams) *fyne.Container {
 	return purityContainer
 }
 
-var labelToValue = map[string]string{
+var labelToValueSort = map[string]string{
 	"Relevance":  "relevance",
 	"Random":     "random",
 	"Date Added": "date_added",
@@ -69,7 +69,7 @@ func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 	}
 
 	sortDropDown := widget.NewSelect(entries, func(s string) {
-		params.Sorting = labelToValue[s]
+		params.Sorting = labelToValueSort[s]
 	})
 	sortDropDown.SetSelected("Date Added") // match NewSearch default sort
 
