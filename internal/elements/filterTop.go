@@ -1,8 +1,6 @@
 package elements
 
 import (
-	"log"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
@@ -51,17 +49,16 @@ func buildPuritySection(params *gopaper.SearchParams) *fyne.Container {
 	return purityContainer
 }
 
-func buildSortSection(params *gopaper.SearchParams) *widget.Select {
-	var labelToValue = map[string]string{
-		"Relevance":  "relevance",
-		"Random":     "random",
-		"Date Added": "date_added",
-		"Views":      "views",
-		"Favorites":  "favorites",
-		"Toplist":    "toplist",
-		"Hot":        "hot",
-	}
+var labelToValue = map[string]string{
+	"Relevance":  "relevance",
+	"Random":     "random",
+	"Date Added": "date_added",
+	"Views":      "views",
+	"Favorites":  "favorites",
+	"Toplist":    "toplist",
+}
 
+func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 	entries := []string{
 		"Relevance",
 		"Random",
@@ -69,7 +66,6 @@ func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 		"Views",
 		"Favorites",
 		"Toplist",
-		"Hot",
 	}
 
 	sortDropDown := widget.NewSelect(entries, func(s string) {
