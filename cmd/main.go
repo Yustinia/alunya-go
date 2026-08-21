@@ -38,7 +38,7 @@ func main() {
 
 	searchContainer := elements.BuildSearchSection(&params)
 	filterRowTop := elements.BuildFilterRowTop(&params)
-	filterRowBot := elements.BuildFilterRowBot()
+	filterRowBot := elements.BuildFilterRowBot(&params)
 	galleryGrid := elements.GalleryGrid()
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
