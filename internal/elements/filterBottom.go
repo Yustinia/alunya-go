@@ -6,30 +6,50 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Yustinia/gopaper"
 )
 
-func buildAspectRatio() *widget.Select {
+var labelToValueRatio = map[string]string{
+	"Any":          "",
+	"All Wide":     "landscape",
+	"All Portrait": "portrait",
+	"16x9":         "16x9",
+	"21x9":         "21x9",
+	"9x16":         "9x16",
+	"1x1":          "1x1",
+	"16x10":        "16x10",
+	"32x9":         "32x9",
+	"10x16":        "10x16",
+	"3x2":          "3x2",
+	"48x9":         "48x9",
+	"9x18":         "9x18",
+	"4x3":          "4x3",
+	"5x4":          "5x4",
+}
+
+func buildAspectRatio(params *gopaper.SearchParams) *widget.Select {
 	entries := []string{
 		"Any",
 		"All Wide",
 		"All Portrait",
-		"16×9",
-		"21×9",
-		"9×16",
-		"1×1",
-		"16×10",
-		"32×9",
-		"10×16",
-		"3×2",
-		"48×9",
-		"9×18",
-		"4×3",
-		"5×4",
+		"16x9",
+		"21x9",
+		"9x16",
+		"1x1",
+		"16x10",
+		"32x9",
+		"10x16",
+		"3x2",
+		"48x9",
+		"9x18",
+		"4x3",
+		"5x4",
 	}
 
 	aspectRatio := widget.NewSelect(entries, func(s string) {
-		log.Printf("Aspect Ratio: %v\n", s)
+		params.Ratios = labelToValueRatio[s]
 	})
+	aspectRatio.SetSelected("Any")
 
 	return aspectRatio
 }
