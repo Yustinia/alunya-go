@@ -51,7 +51,17 @@ func buildPuritySection(params *gopaper.SearchParams) *fyne.Container {
 	return purityContainer
 }
 
-func buildSortSection() *widget.Select {
+func buildSortSection(params *gopaper.SearchParams) *widget.Select {
+	var labelToValue = map[string]string{
+		"Relevance":  "relevance",
+		"Random":     "random",
+		"Date Added": "date_added",
+		"Views":      "views",
+		"Favorites":  "favorites",
+		"Toplist":    "toplist",
+		"Hot":        "hot",
+	}
+
 	entries := []string{
 		"Relevance",
 		"Random",
@@ -61,9 +71,11 @@ func buildSortSection() *widget.Select {
 		"Toplist",
 		"Hot",
 	}
+
 	sortDropDown := widget.NewSelect(entries, func(s string) {
-		log.Printf("Sort: %v\n", s)
+		params.Sorting = labelToValue[s]
 	})
+	sortDropDown.SetSelected("Date Added") // match NewSearch default sort
 
 	return sortDropDown
 }
@@ -71,7 +83,7 @@ func buildSortSection() *widget.Select {
 func BuildFilterRowTop(params *gopaper.SearchParams) *fyne.Container {
 	categoryForm := formItem("Category", buildCategorySection(params))
 	purityForm := formItem("Purity", buildPuritySection(params))
-	sortForm := formItem("Sort", buildSortSection())
+	sortForm := formItem("Sort", buildSortSection(params))
 
 	filterRow := container.NewGridWithColumns(3, categoryForm, purityForm, sortForm)
 
