@@ -75,8 +75,8 @@ func buildResolution() *fyne.Container {
 	return resolutionContainer
 }
 
-func BuildFilterRowBot() *fyne.Container {
-	aspectRatioForm := formItem("Ratio", buildAspectRatio())
+func BuildFilterRowBot(params *gopaper.SearchParams) *fyne.Container {
+	aspectRatioForm := formItem("Ratio", buildAspectRatio(params))
 	resolutionForm := formItem("Resolution", buildResolution())
 
 	filterRow := container.NewGridWithColumns(2, aspectRatioForm, resolutionForm)
