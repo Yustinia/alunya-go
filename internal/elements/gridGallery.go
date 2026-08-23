@@ -12,6 +12,8 @@ import (
 )
 
 func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
+	thumbCache := make(map[string]fyne.Resource)
+
 	var wallpapers []gopaper.Wallpaper
 	length := func() int {
 		return len(wallpapers)
@@ -25,22 +27,31 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 	}
 
 	updateItem := func(id widget.GridWrapItemID, item fyne.CanvasObject) {
-		wall, err := storage.ParseURI(wallpapers[id].ThumbSmall())
-		if err != nil {
-			log.Println(err)
-			return
-		}
-
+		url := wallpapers[id].ThumbSmall()
 		img := item.(*canvas.Image)
 
-		res, err := storage.LoadResourceFromURI(wall)
-		if err != nil {
-			log.Println(err)
+		if value, ok := thumbCache[url]; ok {
+			img.Resource = value
+			img.Refresh()
 			return
-		}
+		} else {
+			wall, err := storage.ParseURI(url)
+			if err != nil {
+				log.Println(err)
+				return
+			}
 
-		img.Resource = res
-		img.Refresh()
+			res, err := storage.LoadResourceFromURI(wall)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+
+			img.Resource = res
+			img.Refresh()
+
+			thumbCache[url] = res
+		}
 	}
 
 	grid := widget.NewGridWrap(length, createImage, updateItem)
