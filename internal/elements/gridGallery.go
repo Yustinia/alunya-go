@@ -4,18 +4,26 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 )
 
 func GalleryGrid() *container.Scroll {
-	var images []fyne.CanvasObject
-	cellSize := fyne.NewSize(250, 250)
+	wallpaperCount := 24
+	length := func() int {
+		return wallpaperCount
+	}
 
-	for i := 0; i < 24; i++ {
+	createImage := func() fyne.CanvasObject {
 		image := canvas.NewImageFromFile("image/placeholder.jpg")
 		image.FillMode = canvas.ImageFillContain
-		images = append(images, image)
+		image.SetMinSize(fyne.NewSize(250, 250))
+		return image
 	}
-	grid := container.NewGridWrap(cellSize, images...)
+
+	updateItem := func(id widget.GridWrapItemID, item fyne.CanvasObject) {
+	}
+
+	grid := widget.NewGridWrap(length, createImage, updateItem)
 	scroll := container.NewScroll(grid)
 
 	return scroll
