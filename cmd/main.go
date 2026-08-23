@@ -36,7 +36,7 @@ func main() {
 	winSize := fyne.NewSize(800, 600)
 	params := gopaper.NewSearch()
 
-	searchContainer := elements.BuildSearchSection(&params)
+	searchContainer := elements.BuildSearchSection(&params, &CLIENT)
 	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot(&params)
 	galleryGrid := elements.GalleryGrid()

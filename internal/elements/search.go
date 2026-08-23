@@ -7,7 +7,7 @@ import (
 	"github.com/Yustinia/gopaper"
 )
 
-func BuildSearchSection(params *gopaper.SearchParams) *fyne.Container {
+func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client) *fyne.Container {
 	queryEntry := widget.NewEntry()
 	queryEntry.SetPlaceHolder("This is your search")
 	queryForm := widget.NewForm(
