@@ -11,7 +11,7 @@ func GalleryGrid() *container.Scroll {
 	cellSize := fyne.NewSize(250, 250)
 
 	for i := 0; i < 24; i++ {
-		image := canvas.NewImageFromFile("/home/yustinia/Projects/apps/alunya-go/image/placeholder.jpg")
+		image := canvas.NewImageFromFile("image/placeholder.jpg")
 		image.FillMode = canvas.ImageFillContain
 		images = append(images, image)
 	}
