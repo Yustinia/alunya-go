@@ -1,16 +1,20 @@
 package elements
 
 import (
+	"log"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Yustinia/gopaper"
 )
 
-func GalleryGrid() *container.Scroll {
-	wallpaperCount := 24
+func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
+	var wallpapers []gopaper.Wallpaper
 	length := func() int {
-		return wallpaperCount
+		return len(wallpapers)
 	}
 
 	createImage := func() fyne.CanvasObject {
@@ -21,10 +25,31 @@ func GalleryGrid() *container.Scroll {
 	}
 
 	updateItem := func(id widget.GridWrapItemID, item fyne.CanvasObject) {
+		wall, err := storage.ParseURI(wallpapers[id].ThumbSmall())
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		img := item.(*canvas.Image)
+
+		res, err := storage.LoadResourceFromURI(wall)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		img.Resource = res
+		img.Refresh()
 	}
 
 	grid := widget.NewGridWrap(length, createImage, updateItem)
 	scroll := container.NewScroll(grid)
 
-	return scroll
+	updateFunc := func(newWallpapers []gopaper.Wallpaper) {
+		wallpapers = newWallpapers
+		grid.Refresh()
+	}
+
+	return scroll, updateFunc
 }

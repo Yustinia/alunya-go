@@ -36,10 +36,10 @@ func main() {
 	winSize := fyne.NewSize(800, 600)
 	params := gopaper.NewSearch()
 
-	searchContainer := elements.BuildSearchSection(&params, &CLIENT)
+	galleryGrid, updateGallery := elements.GalleryGrid()
+	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery)
 	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot(&params)
-	galleryGrid := elements.GalleryGrid()
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
 	windowContainer := container.NewBorder(topContainer, nil, nil, nil, galleryGrid)
