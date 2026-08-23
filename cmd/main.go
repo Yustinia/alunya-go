@@ -40,9 +40,10 @@ func main() {
 	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery)
 	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot(&params)
+	pageRow := elements.BuildPageRow()
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
-	windowContainer := container.NewBorder(topContainer, nil, nil, nil, galleryGrid)
+	windowContainer := container.NewBorder(topContainer, pageRow, nil, nil, galleryGrid)
 
 	w.SetContent(windowContainer)
 	w.Resize(winSize)
