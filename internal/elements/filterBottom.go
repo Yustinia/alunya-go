@@ -1,7 +1,7 @@
 package elements
 
 import (
-	"log"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -54,21 +54,49 @@ func buildAspectRatio(params *gopaper.SearchParams) *widget.Select {
 	return aspectRatio
 }
 
-func buildResolution() *fyne.Container {
+func buildResolution(params *gopaper.SearchParams) *fyne.Container {
 	entries := []string{
 		"At Least",
 		"Exact",
 	}
 
-	resolution := widget.NewSelect(entries, func(s string) {
-		log.Printf("Resolution: %v\n", s)
-	})
+	resOnX := "1920"
+	resOnY := "1080"
+	resolutionState := "At Least"
+
+	applyResolution := func() {
+		switch resolutionState {
+		case "At Least":
+			params.AtLeast = fmt.Sprintf("%sx%s", resOnX, resOnY)
+			params.Resolution = ""
+		case "Exact":
+			params.Resolution = fmt.Sprintf("%sx%s", resOnX, resOnY)
+			params.AtLeast = ""
+		}
+	}
 
 	axisXEntry := widget.NewEntry()
 	axisXEntry.SetPlaceHolder("1920")
+	axisXEntry.SetText(resOnX)
+	axisXEntry.OnChanged = func(text string) {
+		resOnX = text
+		applyResolution()
+	}
 
 	axisYEntry := widget.NewEntry()
 	axisYEntry.SetPlaceHolder("1080")
+	axisYEntry.SetText(resOnY)
+
+	axisYEntry.OnChanged = func(text string) {
+		resOnY = text
+		applyResolution()
+	}
+
+	resolution := widget.NewSelect(entries, func(s string) {
+		resolutionState = s
+		applyResolution()
+	})
+	resolution.SetSelected("At Least")
 
 	resolutionContainer := container.NewGridWithColumns(3, resolution, axisXEntry, axisYEntry)
 
@@ -77,7 +105,7 @@ func buildResolution() *fyne.Container {
 
 func BuildFilterRowBot(params *gopaper.SearchParams) *fyne.Container {
 	aspectRatioForm := formItem("Ratio", buildAspectRatio(params))
-	resolutionForm := formItem("Resolution", buildResolution())
+	resolutionForm := formItem("Resolution", buildResolution(params))
 
 	filterRow := container.NewGridWithColumns(2, aspectRatioForm, resolutionForm)
 
