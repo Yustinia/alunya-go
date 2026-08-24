@@ -1,6 +1,7 @@
 package elements
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
@@ -23,7 +24,7 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 		updateGallery(result.Wallpapers)
 		*lastResults = result
 
-		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+		pageLabel.SetText(fmt.Sprintf("%v/%v", strconv.Itoa(lastResults.Metadata.CurrentPage), result.Metadata.LastPage))
 	})
 
 	nextBtn := widget.NewButton("Next", func() {
@@ -35,7 +36,7 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 		updateGallery(result.Wallpapers)
 		*lastResults = result
 
-		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+		pageLabel.SetText(fmt.Sprintf("%v/%v", strconv.Itoa(lastResults.Metadata.CurrentPage), result.Metadata.LastPage))
 	})
 
 	grid := container.NewGridWithColumns(3, prevBtn, pageLabel, nextBtn)
