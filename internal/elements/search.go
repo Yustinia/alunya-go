@@ -17,6 +17,7 @@ func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, up
 	)
 	querySearchButton := widget.NewButton("Enter", func() {
 		params.KeySearch = queryEntry.Text
+		params.Page = 1
 
 		result, err := client.Search(*params)
 		if err != nil {
