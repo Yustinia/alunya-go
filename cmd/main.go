@@ -34,15 +34,17 @@ func main() {
 	a := app.NewWithID("io.github.yustinia.alunya")
 	w := a.NewWindow("alunya")
 	winSize := fyne.NewSize(800, 600)
+	var lastResults gopaper.SearchResponse
 	params := gopaper.NewSearch()
 
 	galleryGrid, updateGallery := elements.GalleryGrid()
-	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery)
+	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults)
 	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot(&params)
+	pageRow := elements.BuildPageRow(&params, &CLIENT, updateGallery, &lastResults)
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
-	windowContainer := container.NewBorder(topContainer, nil, nil, nil, galleryGrid)
+	windowContainer := container.NewBorder(topContainer, pageRow, nil, nil, galleryGrid)
 
 	w.SetContent(windowContainer)
 	w.Resize(winSize)
