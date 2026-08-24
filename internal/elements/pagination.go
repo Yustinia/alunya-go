@@ -12,11 +12,6 @@ import (
 
 func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse) *fyne.Container {
 	prevBtn := widget.NewButton("Prev", func() {
-		if lastResults.Metadata.CurrentPage == 1 {
-			log.Println(gopaper.ErrFirstPage)
-			return
-		}
-
 		result, err := client.PrevPage(*lastResults, params)
 		if err != nil {
 			log.Println(err)
@@ -27,11 +22,6 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	})
 
 	nextBtn := widget.NewButton("Next", func() {
-		if lastResults.Metadata.CurrentPage >= lastResults.Metadata.LastPage {
-			log.Println(gopaper.ErrLastPage)
-			return
-		}
-
 		result, err := client.NextPage(*lastResults, params)
 		if err != nil {
 			log.Println(err)
@@ -48,12 +38,6 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 		if err != nil {
 			log.Println(err)
 			return
-		}
-
-		if pageInt <= 0 {
-			log.Println(gopaper.ErrFirstPage)
-		} else if pageInt > lastResults.Metadata.LastPage {
-			log.Println(gopaper.ErrLastPage)
 		}
 
 		result, err := client.SetPage(*lastResults, params, pageInt)
