@@ -11,6 +11,9 @@ import (
 )
 
 func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse) *fyne.Container {
+	pageLabel := widget.NewLabel("1")
+	pageLabel.Alignment = fyne.TextAlignCenter
+
 	prevBtn := widget.NewButton("Prev", func() {
 		result, err := client.PrevPage(*lastResults, params)
 		if err != nil {
@@ -19,6 +22,8 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 		}
 		updateGallery(result.Wallpapers)
 		*lastResults = result
+
+		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
 	})
 
 	nextBtn := widget.NewButton("Next", func() {
@@ -29,27 +34,11 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 		}
 		updateGallery(result.Wallpapers)
 		*lastResults = result
+
+		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
 	})
 
-	pageNum := widget.NewEntry()
-	pageNum.SetPlaceHolder("Page")
-	pageNum.OnSubmitted = func(s string) {
-		pageInt, err := strconv.Atoi(s)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-
-		result, err := client.SetPage(*lastResults, params, pageInt)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		updateGallery(result.Wallpapers)
-		*lastResults = result
-	}
-
-	grid := container.NewGridWithColumns(3, prevBtn, pageNum, nextBtn)
+	grid := container.NewGridWithColumns(3, prevBtn, pageLabel, nextBtn)
 
 	return container.NewCenter(grid)
 }
