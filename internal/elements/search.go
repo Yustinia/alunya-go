@@ -9,7 +9,7 @@ import (
 	"github.com/Yustinia/gopaper"
 )
 
-func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper)) *fyne.Container {
+func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse) *fyne.Container {
 	queryEntry := widget.NewEntry()
 	queryEntry.SetPlaceHolder("This is your search")
 	queryForm := widget.NewForm(
@@ -21,8 +21,10 @@ func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, up
 		result, err := client.Search(*params)
 		if err != nil {
 			log.Println(err)
+			return
 		}
 		updateGallery(result.Wallpapers)
+		*lastResults = result
 	})
 
 	searchContainer := container.NewBorder(nil, nil, nil, querySearchButton, queryForm)
