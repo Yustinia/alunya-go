@@ -12,7 +12,7 @@ import (
 )
 
 func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse) *fyne.Container {
-	pageLabel := widget.NewLabel("1")
+	pageLabel := widget.NewLabel(strconv.Itoa(params.Page))
 	pageLabel.Alignment = fyne.TextAlignCenter
 
 	prevBtn := widget.NewButton("Prev", func() {
