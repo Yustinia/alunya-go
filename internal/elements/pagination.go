@@ -15,27 +15,37 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	pageLabel.Alignment = fyne.TextAlignCenter
 
 	prevBtn := widget.NewButton("Prev", func() {
-		result, err := client.PrevPage(*lastResults, params)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		updateGallery(result.Wallpapers)
-		*lastResults = result
+		go func() {
+			result, err := client.PrevPage(*lastResults, params)
+			if err != nil {
+				log.Println(err)
+				return
+			}
 
-		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+			fyne.Do(func() {
+				updateGallery(result.Wallpapers)
+				*lastResults = result
+
+				pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+			})
+		}()
 	})
 
 	nextBtn := widget.NewButton("Next", func() {
-		result, err := client.NextPage(*lastResults, params)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		updateGallery(result.Wallpapers)
-		*lastResults = result
+		go func() {
+			result, err := client.NextPage(*lastResults, params)
+			if err != nil {
+				log.Println(err)
+				return
+			}
 
-		pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+			fyne.Do(func() {
+				updateGallery(result.Wallpapers)
+				*lastResults = result
+
+				pageLabel.SetText(strconv.Itoa(lastResults.Metadata.CurrentPage))
+			})
+		}()
 	})
 
 	grid := container.NewGridWithColumns(3, prevBtn, pageLabel, nextBtn)
