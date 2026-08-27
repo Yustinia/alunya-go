@@ -15,6 +15,8 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	pageLabel.Alignment = fyne.TextAlignCenter
 
 	prevBtn := widget.NewButton("Prev", func() {
+		pageLabel.SetText("Loading...")
+
 		go func() {
 			result, err := client.PrevPage(*lastResults, params)
 			if err != nil {
@@ -32,6 +34,8 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	})
 
 	nextBtn := widget.NewButton("Next", func() {
+		pageLabel.SetText("Loading...")
+
 		go func() {
 			result, err := client.NextPage(*lastResults, params)
 			if err != nil {
