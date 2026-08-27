@@ -20,7 +20,7 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 	}
 
 	createImage := func() fyne.CanvasObject {
-		image := canvas.NewImageFromFile("image/placeholder.jpg")
+		image := canvas.NewImageFromFile("image/noThumb.jpg")
 		image.FillMode = canvas.ImageFillContain
 		image.SetMinSize(fyne.NewSize(250, 250))
 		return image
@@ -37,6 +37,11 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 			})
 			return
 		}
+
+		fyne.Do(func() {
+			img.Resource = nil
+			img.Refresh()
+		})
 
 		go func() {
 			wall, err := storage.ParseURI(url)
