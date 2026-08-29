@@ -45,7 +45,7 @@ func main() {
 
 	galleryGrid, updateGallery := elements.GalleryGrid()
 	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults, pageLabel, &debounceTimer)
-	filterRowTop := elements.BuildFilterRowTop(&params)
+	filterRowTop := elements.BuildFilterRowTop(&params, &CLIENT, updateGallery, &lastResults, pageLabel, &debounceTimer)
 	filterRowBot := elements.BuildFilterRowBot(&params)
 	pageRow := elements.BuildPageRow(&params, &CLIENT, updateGallery, &lastResults, pageLabel)
 

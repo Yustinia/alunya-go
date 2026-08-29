@@ -1,15 +1,28 @@
 package elements
 
 import (
+	"time"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	search "github.com/Yustinia/alunya-go/internal/helper"
 	"github.com/Yustinia/gopaper"
 )
 
-func buildCategorySection(params *gopaper.SearchParams) *fyne.Container {
+func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
 	generalToggle := widget.NewCheck("General", func(b bool) {
 		params.Categories.General = b
+		params.Page = 1
+
+		if *debounceTimer != nil {
+			(*debounceTimer).Stop()
+		}
+		*debounceTimer = time.AfterFunc(500*time.Millisecond, func() {
+			search.PerformSearch(func() (gopaper.SearchResponse, error) {
+				return client.Search(*params)
+			}, updateGallery, lastResults, pageLabel)
+		})
 	})
 	generalToggle.SetChecked(params.Categories.General)
 
@@ -76,8 +89,8 @@ func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 	return sortDropDown
 }
 
-func BuildFilterRowTop(params *gopaper.SearchParams) *fyne.Container {
-	categoryForm := formItem("Category", buildCategorySection(params))
+func BuildFilterRowTop(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
+	categoryForm := formItem("Category", buildCategorySection(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
 	purityForm := formItem("Purity", buildPuritySection(params))
 	sortForm := formItem("Sort", buildSortSection(params))
 
