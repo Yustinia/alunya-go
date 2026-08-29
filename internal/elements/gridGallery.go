@@ -30,18 +30,19 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 		url := wallpapers[id].ThumbSmall()
 		img := item.(*canvas.Image)
 
-		if value, ok := thumbCache[url]; ok {
+		setImg := func(resource fyne.Resource) {
 			fyne.Do(func() {
-				img.Resource = value
+				img.Resource = resource
 				img.Refresh()
 			})
+		}
+
+		if value, ok := thumbCache[url]; ok {
+			setImg(value)
 			return
 		}
 
-		fyne.Do(func() {
-			img.Resource = nil
-			img.Refresh()
-		})
+		setImg(nil)
 
 		go func() {
 			wall, err := storage.ParseURI(url)
@@ -56,9 +57,8 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 				return
 			}
 
+			setImg(res)
 			fyne.Do(func() {
-				img.Resource = res
-				img.Refresh()
 				thumbCache[url] = res
 			})
 		}()
