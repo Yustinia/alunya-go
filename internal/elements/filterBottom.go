@@ -2,10 +2,12 @@ package elements
 
 import (
 	"fmt"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	search "github.com/Yustinia/alunya-go/internal/helper"
 	"github.com/Yustinia/gopaper"
 )
 
@@ -27,7 +29,7 @@ var labelToValueRatio = map[string]string{
 	"5x4":          "5x4",
 }
 
-func buildAspectRatio(params *gopaper.SearchParams) *widget.Select {
+func buildAspectRatio(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *widget.Select {
 	entries := []string{
 		"Any",
 		"All Wide",
@@ -48,13 +50,14 @@ func buildAspectRatio(params *gopaper.SearchParams) *widget.Select {
 
 	aspectRatio := widget.NewSelect(entries, func(s string) {
 		params.Ratios = labelToValueRatio[s]
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	aspectRatio.SetSelected("Any")
 
 	return aspectRatio
 }
 
-func buildResolution(params *gopaper.SearchParams) *fyne.Container {
+func buildResolution(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
 	entries := []string{
 		"At Least",
 		"Exact",
@@ -69,9 +72,15 @@ func buildResolution(params *gopaper.SearchParams) *fyne.Container {
 		case "At Least":
 			params.AtLeast = fmt.Sprintf("%sx%s", resOnX, resOnY)
 			params.Resolution = ""
+
+			search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 		case "Exact":
 			params.Resolution = fmt.Sprintf("%sx%s", resOnX, resOnY)
 			params.AtLeast = ""
+
+			search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 		}
 	}
 
@@ -86,7 +95,6 @@ func buildResolution(params *gopaper.SearchParams) *fyne.Container {
 	axisYEntry := widget.NewEntry()
 	axisYEntry.SetPlaceHolder("1080")
 	axisYEntry.SetText(resOnY)
-
 	axisYEntry.OnChanged = func(text string) {
 		resOnY = text
 		applyResolution()
@@ -103,9 +111,9 @@ func buildResolution(params *gopaper.SearchParams) *fyne.Container {
 	return resolutionContainer
 }
 
-func BuildFilterRowBot(params *gopaper.SearchParams) *fyne.Container {
-	aspectRatioForm := formItem("Ratio", buildAspectRatio(params))
-	resolutionForm := formItem("Resolution", buildResolution(params))
+func BuildFilterRowBot(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
+	aspectRatioForm := formItem("Ratio", buildAspectRatio(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
+	resolutionForm := formItem("Resolution", buildResolution(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
 
 	filterRow := container.NewGridWithColumns(2, aspectRatioForm, resolutionForm)
 
