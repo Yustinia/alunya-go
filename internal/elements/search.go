@@ -13,17 +13,7 @@ func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, up
 	queryEntry.SetPlaceHolder("This is your search")
 	queryEntry.OnChanged = func(text string) {
 		params.KeySearch = text
-		params.Page = 1
-
-		if *debounceTimer != nil {
-			(*debounceTimer).Stop()
-		}
-
-		*debounceTimer = time.AfterFunc(500*time.Millisecond, func() {
-			search.PerformSearch(func() (gopaper.SearchResponse, error) {
-				return client.Search(*params)
-			}, updateGallery, lastResults, pageLabel)
-		})
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	}
 
 	queryForm := widget.NewForm(
