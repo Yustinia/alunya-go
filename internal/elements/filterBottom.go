@@ -72,16 +72,12 @@ func buildResolution(params *gopaper.SearchParams, client *gopaper.Client, updat
 		case "At Least":
 			params.AtLeast = fmt.Sprintf("%sx%s", resOnX, resOnY)
 			params.Resolution = ""
-
-			search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
-
 		case "Exact":
 			params.Resolution = fmt.Sprintf("%sx%s", resOnX, resOnY)
 			params.AtLeast = ""
-
-			search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
-
 		}
+
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	}
 
 	axisXEntry := widget.NewEntry()
