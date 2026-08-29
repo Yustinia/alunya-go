@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/Yustinia/alunya-go/internal/elements"
 	"github.com/Yustinia/gopaper"
@@ -37,14 +38,15 @@ func main() {
 	w := a.NewWindow("alunya")
 	winSize := fyne.NewSize(800, 600)
 	var lastResults gopaper.SearchResponse
+	var debounceTimer *time.Timer
 	params := gopaper.NewSearch()
 	pageLabel := widget.NewLabel(strconv.Itoa(params.Page))
 	pageLabel.Alignment = fyne.TextAlignCenter
 
 	galleryGrid, updateGallery := elements.GalleryGrid()
-	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults, pageLabel)
-	filterRowTop := elements.BuildFilterRowTop(&params)
-	filterRowBot := elements.BuildFilterRowBot(&params)
+	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults, pageLabel, &debounceTimer)
+	filterRowTop := elements.BuildFilterRowTop(&params, &CLIENT, updateGallery, &lastResults, pageLabel, &debounceTimer)
+	filterRowBot := elements.BuildFilterRowBot(&params, &CLIENT, updateGallery, &lastResults, pageLabel, &debounceTimer)
 	pageRow := elements.BuildPageRow(&params, &CLIENT, updateGallery, &lastResults, pageLabel)
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
