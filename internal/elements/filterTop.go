@@ -19,11 +19,14 @@ func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, 
 
 	animeToggle := widget.NewCheck("Anime", func(b bool) {
 		params.Categories.Anime = b
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	animeToggle.SetChecked(params.Categories.Anime)
 
 	peopleToggle := widget.NewCheck("People", func(b bool) {
 		params.Categories.People = b
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 	})
 	peopleToggle.SetChecked(params.Categories.People)
 
@@ -32,19 +35,25 @@ func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, 
 	return categoryContainer
 }
 
-func buildPuritySection(params *gopaper.SearchParams) *fyne.Container {
+func buildPuritySection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
 	sfwToggle := widget.NewCheck("SFW", func(b bool) {
 		params.Purity.SFW = b
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 	})
 	sfwToggle.SetChecked(params.Purity.SFW)
 
 	sketchyToggle := widget.NewCheck("Sketchy", func(b bool) {
 		params.Purity.Sketchy = b
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 	})
 	sketchyToggle.SetChecked(params.Purity.Sketchy)
 
 	nsfwToggle := widget.NewCheck("NSFW", func(b bool) {
 		params.Purity.NSFW = b
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 	})
 	nsfwToggle.SetChecked(params.Purity.NSFW)
 
@@ -62,7 +71,7 @@ var labelToValueSort = map[string]string{
 	"Toplist":    "toplist",
 }
 
-func buildSortSection(params *gopaper.SearchParams) *widget.Select {
+func buildSortSection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *widget.Select {
 	entries := []string{
 		"Relevance",
 		"Random",
@@ -74,6 +83,8 @@ func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 
 	sortDropDown := widget.NewSelect(entries, func(s string) {
 		params.Sorting = labelToValueSort[s]
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+
 	})
 	sortDropDown.SetSelected("Date Added") // match NewSearch default sort
 
@@ -82,8 +93,8 @@ func buildSortSection(params *gopaper.SearchParams) *widget.Select {
 
 func BuildFilterRowTop(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
 	categoryForm := formItem("Category", buildCategorySection(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
-	purityForm := formItem("Purity", buildPuritySection(params))
-	sortForm := formItem("Sort", buildSortSection(params))
+	purityForm := formItem("Purity", buildPuritySection(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
+	sortForm := formItem("Sort", buildSortSection(params, client, updateGallery, lastResults, pageLabel, debounceTimer))
 
 	filterRow := container.NewGridWithColumns(3, categoryForm, purityForm, sortForm)
 
