@@ -13,16 +13,7 @@ import (
 func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
 	generalToggle := widget.NewCheck("General", func(b bool) {
 		params.Categories.General = b
-		params.Page = 1
-
-		if *debounceTimer != nil {
-			(*debounceTimer).Stop()
-		}
-		*debounceTimer = time.AfterFunc(500*time.Millisecond, func() {
-			search.PerformSearch(func() (gopaper.SearchResponse, error) {
-				return client.Search(*params)
-			}, updateGallery, lastResults, pageLabel)
-		})
+		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	generalToggle.SetChecked(params.Categories.General)
 
