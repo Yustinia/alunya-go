@@ -1,15 +1,14 @@
 package elements
 
 import (
-	"log"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Yustinia/alunya-go/internal/search"
 	"github.com/Yustinia/gopaper"
 )
 
-func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse) *fyne.Container {
+func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label) *fyne.Container {
 	queryEntry := widget.NewEntry()
 	queryEntry.SetPlaceHolder("This is your search")
 	queryForm := widget.NewForm(
@@ -19,13 +18,9 @@ func BuildSearchSection(params *gopaper.SearchParams, client *gopaper.Client, up
 		params.KeySearch = queryEntry.Text
 		params.Page = 1
 
-		result, err := client.Search(*params)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		updateGallery(result.Wallpapers)
-		*lastResults = result
+		search.PerformSearch(func() (gopaper.SearchResponse, error) {
+			return client.Search(*params)
+		}, updateGallery, lastResults, pageLabel)
 	})
 
 	searchContainer := container.NewBorder(nil, nil, nil, querySearchButton, queryForm)

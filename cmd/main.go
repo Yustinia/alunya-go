@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/Yustinia/alunya-go/internal/elements"
 	"github.com/Yustinia/gopaper"
@@ -9,6 +10,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 )
 
 var (
@@ -36,12 +38,14 @@ func main() {
 	winSize := fyne.NewSize(800, 600)
 	var lastResults gopaper.SearchResponse
 	params := gopaper.NewSearch()
+	pageLabel := widget.NewLabel(strconv.Itoa(params.Page))
+	pageLabel.Alignment = fyne.TextAlignCenter
 
 	galleryGrid, updateGallery := elements.GalleryGrid()
-	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults)
+	searchContainer := elements.BuildSearchSection(&params, &CLIENT, updateGallery, &lastResults, pageLabel)
 	filterRowTop := elements.BuildFilterRowTop(&params)
 	filterRowBot := elements.BuildFilterRowBot(&params)
-	pageRow := elements.BuildPageRow(&params, &CLIENT, updateGallery, &lastResults)
+	pageRow := elements.BuildPageRow(&params, &CLIENT, updateGallery, &lastResults, pageLabel)
 
 	topContainer := container.NewVBox(searchContainer, filterRowTop, filterRowBot)
 	windowContainer := container.NewBorder(topContainer, pageRow, nil, nil, galleryGrid)
