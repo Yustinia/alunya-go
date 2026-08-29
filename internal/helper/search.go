@@ -33,7 +33,7 @@ func TriggerDebounceSearch(params *gopaper.SearchParams, client *gopaper.Client,
 		(*debounceTimer).Stop()
 	}
 
-	*debounceTimer = time.AfterFunc(500*time.Millisecond, func() {
+	*debounceTimer = time.AfterFunc(800*time.Millisecond, func() {
 		PerformSearch(func() (gopaper.SearchResponse, error) {
 			return client.Search(*params)
 		}, updateGallery, lastResults, pageLabel)
