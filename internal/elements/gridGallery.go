@@ -99,6 +99,9 @@ func GalleryGrid() (*container.Scroll, func([]gopaper.Wallpaper)) {
 	}
 
 	grid := widget.NewGridWrap(length, createImage, updateItem)
+	// grid.OnSelected = func(id widget.GridWrapItemID) {
+	// 	wallSel := wallpapers[id]
+	// }
 	scroll := container.NewScroll(grid)
 
 	updateFunc := func(newWallpapers []gopaper.Wallpaper) {
