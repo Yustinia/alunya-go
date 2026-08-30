@@ -12,7 +12,7 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	prevBtn := widget.NewButton("Prev", func() {
 		pageLabel.SetText("Loading...")
 
-		search.PerformSearch(
+		helper.PerformSearch(
 			func() (gopaper.SearchResponse, error) {
 				return client.PrevPage(*lastResults, params)
 			}, updateGallery, lastResults, pageLabel)
@@ -21,7 +21,7 @@ func BuildPageRow(params *gopaper.SearchParams, client *gopaper.Client, updateGa
 	nextBtn := widget.NewButton("Next", func() {
 		pageLabel.SetText("Loading...")
 
-		search.PerformSearch(func() (gopaper.SearchResponse, error) {
+		helper.PerformSearch(func() (gopaper.SearchResponse, error) {
 			return client.NextPage(*lastResults, params)
 		}, updateGallery, lastResults, pageLabel)
 	})

@@ -7,7 +7,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	search "github.com/Yustinia/alunya-go/internal/helper"
+	"github.com/Yustinia/alunya-go/internal/helper"
 	"github.com/Yustinia/gopaper"
 )
 
@@ -50,7 +50,7 @@ func buildAspectRatio(params *gopaper.SearchParams, client *gopaper.Client, upda
 
 	aspectRatio := widget.NewSelect(entries, func(s string) {
 		params.Ratios = labelToValueRatio[s]
-		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+		helper.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	aspectRatio.SetSelected("Any")
 
@@ -77,7 +77,7 @@ func buildResolution(params *gopaper.SearchParams, client *gopaper.Client, updat
 			params.AtLeast = ""
 		}
 
-		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
+		helper.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	}
 
 	axisXEntry := widget.NewEntry()
