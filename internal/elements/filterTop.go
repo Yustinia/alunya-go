@@ -11,19 +11,52 @@ import (
 )
 
 func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
-	generalToggle := widget.NewCheck("General", func(b bool) {
+	var (
+		generalToggle *widget.Check
+		animeToggle   *widget.Check
+		peopleToggle  *widget.Check
+	)
+
+	generalToggle = widget.NewCheck("General", func(b bool) {
+		if !b && !params.Categories.Anime && !params.Categories.People {
+			generalToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Categories.General {
+			return
+		}
+
 		params.Categories.General = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	generalToggle.SetChecked(params.Categories.General)
 
-	animeToggle := widget.NewCheck("Anime", func(b bool) {
+	animeToggle = widget.NewCheck("Anime", func(b bool) {
+		if !b && !params.Categories.General && !params.Categories.People {
+			animeToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Categories.Anime {
+			return
+		}
+
 		params.Categories.Anime = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 	})
 	animeToggle.SetChecked(params.Categories.Anime)
 
-	peopleToggle := widget.NewCheck("People", func(b bool) {
+	peopleToggle = widget.NewCheck("People", func(b bool) {
+		if !b && !params.Categories.Anime && !params.Categories.General {
+			peopleToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Categories.People {
+			return
+		}
+
 		params.Categories.People = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
 
@@ -36,24 +69,54 @@ func buildCategorySection(params *gopaper.SearchParams, client *gopaper.Client, 
 }
 
 func buildPuritySection(params *gopaper.SearchParams, client *gopaper.Client, updateGallery func([]gopaper.Wallpaper), lastResults *gopaper.SearchResponse, pageLabel *widget.Label, debounceTimer **time.Timer) *fyne.Container {
-	sfwToggle := widget.NewCheck("SFW", func(b bool) {
+	var (
+		sfwToggle     *widget.Check
+		sketchyToggle *widget.Check
+		nsfwToggle    *widget.Check
+	)
+
+	sfwToggle = widget.NewCheck("SFW", func(b bool) {
+		if !b && !params.Purity.Sketchy && !params.Purity.NSFW {
+			sfwToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Purity.SFW {
+			return
+		}
+
 		params.Purity.SFW = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
-
 	})
 	sfwToggle.SetChecked(params.Purity.SFW)
 
-	sketchyToggle := widget.NewCheck("Sketchy", func(b bool) {
+	sketchyToggle = widget.NewCheck("Sketchy", func(b bool) {
+		if !b && !params.Purity.SFW && !params.Purity.NSFW {
+			sketchyToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Purity.Sketchy {
+			return
+		}
+
 		params.Purity.Sketchy = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
-
 	})
 	sketchyToggle.SetChecked(params.Purity.Sketchy)
 
-	nsfwToggle := widget.NewCheck("NSFW", func(b bool) {
+	nsfwToggle = widget.NewCheck("NSFW", func(b bool) {
+		if !b && !params.Purity.SFW && !params.Purity.Sketchy {
+			nsfwToggle.SetChecked(true)
+			return
+		}
+
+		if b == params.Purity.NSFW {
+			return
+		}
+
 		params.Purity.NSFW = b
 		search.TriggerDebounceSearch(params, client, updateGallery, lastResults, pageLabel, debounceTimer)
-
 	})
 	nsfwToggle.SetChecked(params.Purity.NSFW)
 
